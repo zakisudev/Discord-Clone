@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { resetFriends } from '../store/actions/friendsActions';
 import { connect } from 'react-redux';
@@ -8,7 +7,6 @@ import { getActions } from '../store/actions/authActions';
 
 const MenuIntroduction = ({ resetFriends, logout }) => {
   const [dropDown, setDropDown] = useState(false);
-  const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
   const toggleDropDown = () => {
@@ -16,9 +14,8 @@ const MenuIntroduction = ({ resetFriends, logout }) => {
   };
 
   const handleLogout = () => {
-    logout(navigate);
+    logout();
     resetFriends();
-    localStorage.clear();
   };
 
   const handleClickOutside = (event) => {

@@ -39,9 +39,7 @@ const AddFriendDialog = ({
     <div>
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>
-          <Typography variant="h6" className="font-semibold">
-            Invite a friend
-          </Typography>
+          <Typography className="font-semibold">Invite a friend</Typography>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
