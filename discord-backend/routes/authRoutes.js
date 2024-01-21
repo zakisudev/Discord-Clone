@@ -16,7 +16,9 @@ const loginSchema = Joi.object({
 const {
   registerUser,
   loginUser,
+  logoutUser,
 } = require('../controllers/auth/authControllers');
+const verifyToken = require('../middlewares/auth');
 const router = express.Router();
 
 // @route   POST /register
@@ -28,5 +30,10 @@ router.post('/register', validator.body(registerSchema), registerUser);
 // @desc    Login user
 // @access  Public
 router.post('/login', validator.body(loginSchema), loginUser);
+
+// @route   POST /logout
+// @desc    Logout user
+// @access  Private
+router.post('/logout', verifyToken, logoutUser);
 
 module.exports = router;

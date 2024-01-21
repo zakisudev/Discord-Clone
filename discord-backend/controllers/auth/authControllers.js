@@ -41,10 +41,11 @@ const registerUser = async (req, res) => {
     });
 
     // create token
-    const token = generateToken(user._id);
+    const token = generateToken(user._id, user);
 
     res.status(201).json({
       userInfo: {
+        _id: user._id,
         username: user.username,
         email: user.email,
         token,
@@ -71,10 +72,11 @@ const loginUser = async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // create token
-      const token = generateToken(user._id);
+      const token = generateToken(user);
 
       return res.status(200).json({
         userInfo: {
+          _id: user._id,
           username: user.username,
           email: user.email,
           avatar: user.avatar,
@@ -92,7 +94,20 @@ const loginUser = async (req, res) => {
   }
 };
 
+// @route   POST /logout
+// @desc    Logout user
+// @access  Private
+const logoutUser = async (req, res) => {
+  console.log(req.user);
+  try {
+    res.status(200).json({ message: 'Logout successful', status: true });
+  } catch (error) {
+    res.status(500).json({ error, status: false });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
 };
