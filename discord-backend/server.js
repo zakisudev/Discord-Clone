@@ -1,3 +1,4 @@
+const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const http = require('http');
@@ -22,12 +23,26 @@ app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app);
 // Socket.io
 socketServer(server);
+
+// Production setup
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../discord-frontend', 'build')));
+
+  app.get('*', (_, res) =>
+    res.sendFile(
+      path.resolve(__dirname, '../discord-frontend', 'build', 'index.html')
+    )
+  );
+} else {
+  app.get('/', (_, res) => {
+    res.send('API is running...');
+  });
+}
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/friend-requests', friendRequestsRoutes);
 
 server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
-
-module.exports = app;
