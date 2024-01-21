@@ -11,6 +11,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         userInfo: action.payload,
       };
+    case authActions.RESET_USER_INFO:
+      return initialState;
 
     default:
       return state;

@@ -1,8 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { resetFriends } from '../store/actions/friendsActions';
+import { connect } from 'react-redux';
+import { getActions } from '../store/actions/authActions';
 
-export default function MenuIntroduction() {
+const MenuIntroduction = ({ resetFriends, logout }) => {
   const [dropDown, setDropDown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -12,8 +16,9 @@ export default function MenuIntroduction() {
   };
 
   const handleLogout = () => {
+    logout(navigate);
+    resetFriends();
     localStorage.clear();
-    navigate('/login', { replace: true });
   };
 
   const handleClickOutside = (event) => {
@@ -50,4 +55,13 @@ export default function MenuIntroduction() {
       )}
     </div>
   );
-}
+};
+
+const mapActionsToProps = (dispatch) => {
+  return {
+    ...getActions(dispatch),
+    resetFriends,
+  };
+};
+
+export default connect(null, mapActionsToProps)(MenuIntroduction);

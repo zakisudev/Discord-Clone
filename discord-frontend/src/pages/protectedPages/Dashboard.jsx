@@ -7,6 +7,7 @@ import FriendsSideBar from './FriendsSideBar';
 import Messenger from './Messenger';
 import SideBar from './SideBar';
 import { setUserInfo } from '../../store/actions/authActions';
+import { connectWithSocketServer } from '../../webRTC/socketConnection';
 
 const Dashboard = ({ setUserInfo }) => {
   const navigate = useNavigate();
@@ -17,11 +18,12 @@ const Dashboard = ({ setUserInfo }) => {
       navigate('/login');
     } else {
       setUserInfo(JSON.parse(userInfo));
+      connectWithSocketServer(JSON.parse(userInfo));
     }
   }, [navigate, userInfo, setUserInfo]);
 
   return (
-    <div className="flex w-full min-h-screen">
+    <div className="flex w-full h-screen">
       <SideBar />
       <FriendsSideBar />
       <Messenger />

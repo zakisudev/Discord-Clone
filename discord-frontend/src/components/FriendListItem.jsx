@@ -1,9 +1,18 @@
-import { Link } from 'react-router-dom';
+import { chatTypes } from '../store/actions/chatActions';
+import { connect } from 'react-redux';
+import { getActions } from '../store/actions/chatActions';
 
-const FriendListItem = ({ friend }) => {
+const FriendListItem = ({ friend, setChosenChatDetails }) => {
+  const handleChooseActiveConversation = () => {
+    setChosenChatDetails({ friend }, chatTypes.DIRECT);
+  };
+
   return (
     <>
-      <Link className="flex items-center justify-between w-full h-16 px-2 py-2 bg-gray-600 hover:bg-gray-800 transition-all duration-200 ease-linear">
+      <button
+        onClick={handleChooseActiveConversation}
+        className="flex items-center justify-between w-full h-16 px-2 py-2 bg-gray-600 hover:bg-gray-800 transition-all duration-200 ease-linear"
+      >
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
             <div className="w-10 h-10 mr-4 bg-gray-500 rounded-full">
@@ -11,7 +20,7 @@ const FriendListItem = ({ friend }) => {
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-semibold text-white">
-                {friend.name}
+                {friend.username}
               </span>
             </div>
           </div>
@@ -23,9 +32,15 @@ const FriendListItem = ({ friend }) => {
             ></div>
           </div>
         </div>
-      </Link>
+      </button>
     </>
   );
 };
 
-export default FriendListItem;
+const mapActionsToProps = (dispatch) => {
+  return {
+    ...getActions(dispatch),
+  };
+};
+
+export default connect(null, mapActionsToProps)(FriendListItem);

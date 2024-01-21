@@ -6,16 +6,25 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import PrimaryButton from './PrimaryButton';
+import { getActions } from '../store/actions/friendsActions';
+import { connect } from 'react-redux';
 
 const AddFriendDialog = ({
   isDialogOpen,
   closeDialogHandler,
-  sendFriendInvitation = () => {},
+  sendFriendRequests = () => {},
 }) => {
   const [email, setEmail] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleSendInvitation = (event) => {};
+  const handleSendRequests = () => {
+    sendFriendRequests(
+      {
+        requestReceiverEmail: email,
+      },
+      handleCloseDialog
+    );
+  };
 
   const handleCloseDialog = () => {
     closeDialogHandler();
@@ -30,7 +39,9 @@ const AddFriendDialog = ({
     <div>
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>
-          <Typography>Invite a friend</Typography>
+          <Typography variant="h6" className="font-semibold">
+            Invite a friend
+          </Typography>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -62,7 +73,7 @@ const AddFriendDialog = ({
         </DialogContent>
         <DialogActions>
           <PrimaryButton
-            onClick={handleSendInvitation}
+            onClick={handleSendRequests}
             name="Send"
             disabled={!isFormValid}
             className="bg-green-500 hover:bg-green-500 transition-all duration-200 ease-in-out"
@@ -73,4 +84,10 @@ const AddFriendDialog = ({
   );
 };
 
-export default AddFriendDialog;
+const mapActionsToProps = (dispatch) => {
+  return {
+    ...getActions(dispatch),
+  };
+};
+
+export default connect(null, mapActionsToProps)(AddFriendDialog);

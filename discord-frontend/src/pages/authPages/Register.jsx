@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import AuthBox from '../../components/AuthBox';
 import RegisterForm from '../../components/RegisterForm';
+import { setUserInfo } from '../../store/actions/authActions';
 
 const Register = () => {
   const navigate = useNavigate();
-  const { userInfo } = useSelector((state) => state.auth);
+  const userInfo = localStorage.getItem('user');
 
   useEffect(() => {
     if (userInfo) {
+      setUserInfo(JSON.parse(userInfo));
       navigate('/dashboard');
     }
   }, [navigate, userInfo]);
