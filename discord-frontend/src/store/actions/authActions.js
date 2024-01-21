@@ -10,7 +10,7 @@ export const getActions = (dispatch) => {
   return {
     login: (userInfo, navigate) => dispatch(login(userInfo, navigate)),
     register: (userInfo, navigate) => dispatch(register(userInfo, navigate)),
-    logout: (userInfo, navigate) => dispatch(logout(userInfo, navigate)),
+    logout: () => dispatch(logout()),
   };
 };
 
@@ -27,7 +27,7 @@ export const resetUser = () => {
   };
 };
 
-const logout = (navigate) => {
+const logout = () => {
   return async (dispatch) => {
     const res = await api.logoutUser();
     if (!res || res?.status === false) {
@@ -36,8 +36,8 @@ const logout = (navigate) => {
     }
 
     if (res?.status === true) {
-      localStorage.clear();
       dispatch(resetUser());
+      localStorage.clear();
       window.location.pathname = '/login';
     }
   };

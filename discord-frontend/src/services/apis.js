@@ -5,10 +5,7 @@ import {
   REGISTER_URL,
   LOGOUT_URL,
 } from '../constants/urls';
-
-const token = localStorage.getItem('user')
-  ? JSON.parse(localStorage.getItem('user'))?.token
-  : null;
+import store from '../store/store';
 
 // Auth APIS
 export const loginUser = async (data) => {
@@ -32,6 +29,12 @@ export const registerUser = async (data) => {
 
 // Protected APIS
 export const logoutUser = async () => {
+  const token = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))?.token
+    : store.getState()?.auth?.userInfo
+    ? store.getState()?.auth?.userInfo?.token
+    : null;
+
   try {
     const res = await axios.post(`${LOGOUT_URL}`, null, {
       headers: {
@@ -45,6 +48,12 @@ export const logoutUser = async () => {
 };
 
 export const sendFriendRequests = async (data) => {
+  const token = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))?.token
+    : store.getState()?.auth?.userInfo
+    ? store.getState()?.auth?.userInfo?.token
+    : null;
+
   try {
     const res = await axios.post(`${FRIENDS_URL}/invite`, data, {
       headers: {
@@ -58,6 +67,12 @@ export const sendFriendRequests = async (data) => {
 };
 
 export const acceptFriendRequest = async (data) => {
+  const token = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))?.token
+    : store.getState()?.auth?.userInfo
+    ? store.getState()?.auth?.userInfo?.token
+    : null;
+
   try {
     const res = await axios.post(`${FRIENDS_URL}/accept`, data, {
       headers: {
@@ -71,6 +86,12 @@ export const acceptFriendRequest = async (data) => {
 };
 
 export const rejectFriendRequest = async (data) => {
+  const token = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))?.token
+    : store.getState()?.auth?.userInfo
+    ? store.getState()?.auth?.userInfo?.token
+    : null;
+
   try {
     const res = await axios.post(`${FRIENDS_URL}/reject`, data, {
       headers: {
